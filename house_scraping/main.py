@@ -41,9 +41,12 @@ def send_email(new_houses):
 if __name__ == '__main__': 
 
     url = 'https://www.pisos.com/venta/pisos-pinar_del_rey/' # search
-    page = requests.get(url, headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36'
-        }, timeout=5)
+    try:
+        page = requests.get(url, headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36'
+            }, timeout=5)
+    except requests.exceptions.ConnectionError:
+        print('Connection refused')
     soup = BeautifulSoup(page.content, 'lxml')
     results = soup.find_all('div', attrs={'data-listado-row':'true'})
     
